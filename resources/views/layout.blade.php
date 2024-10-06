@@ -12,17 +12,17 @@
 
     <body>
     <header class="fixed w-full flex justify-between p-5">
-        <div class="text-red-400 text-5xl">ИП Кречетов В. В.</div>
-        <div class="flex">
+        <div class="text-red-400 text-5xl bold">ИП Кречетов В. В.</div>
+        <a class="flex" href="#">
             <icon file="location" class="w-12 fill-red-400"></icon>
             <div>
                 <span class="block">г. Барнаул</span>
                 <span class="block">ул. Новосибирская, 32</span>
             </div>
-        </div>
+        </a>
         <div>
-            <a href="tel:+79132141948" class="block">+79132141948</a>
-            <a href="tel:+79132141948" class="block">+79132141948</a>
+            <a href="tel:+79132141948" class="block text-red-400 font-bold underline">+79132141948</a>
+            <a href="tel:+79132141948" class="block text-red-400 font-bold underline">+79132141948</a>
         </div>
     </header>
     @yield('content')
