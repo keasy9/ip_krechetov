@@ -9,6 +9,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
@@ -38,8 +39,21 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('email'),
+                TextColumn::make('email')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('name')
+                    ->label('Имя')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
+                IconColumn::make('email_verified_at')
+                    ->getStateUsing(fn (User $user) => $user->hasVerifiedEmail())
+                    ->boolean()
+                    ->label('Подтверждён')
+                    ->tooltip(fn (User $user) => $user->email_verified_at)
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
                 Filter::make('verified')
