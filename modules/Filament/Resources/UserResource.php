@@ -87,7 +87,8 @@ class UserResource extends BaseResource
                 ->required()
                 ->multiple()
                 ->searchable()
-                ->preload(),
+                ->preload()
+                ->createOptionForm(RoleResource::fields()),
         ];
     }
 }
