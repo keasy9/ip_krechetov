@@ -4,8 +4,10 @@
 /public/hot
 /public/storage
 /public/js/filament/
+/public/js/malzariey
 /public/css/filament/
-public/vendor/
+/public/css/malzariey
+/public/vendor/
 /storage/*.key
 /vendor
 .env

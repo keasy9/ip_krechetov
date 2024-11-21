@@ -5,6 +5,7 @@ namespace Modules\Filament\Resources;
 use App\Enums\MediaCollectionEnum;
 use App\Models\User;
 use Filament\Forms\Components\BaseFileUpload;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -16,9 +17,13 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Malzariey\FilamentDaterangepickerFilter\Fields\DateRangePicker;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Modules\Filament\Pages\User\CreatePage;
 use Modules\Filament\Pages\User\EditPage;
 use Modules\Filament\Pages\User\ListPage;
@@ -76,9 +81,31 @@ class UserResource extends BaseResource
                     ->dateTimeTooltip(),
             ])
             ->filters([
-                Filter::make('verified')
-                    ->query(fn (Builder $query): Builder => $query->whereNotNull('email_verified_at')),
+                TernaryFilter::make('verified')
+                    ->label('Статус')
+                    ->nullable()
+                    ->placeholder('Все')
+                    ->trueLabel('Подтверждённые')
+                    ->falseLabel('Неподтверждённые')
+                    ->queries(
+                        true: fn (Builder $query) => $query->whereNotNull('email_verified_at'),
+                        false: fn (Builder $query) => $query->whereNull('email_verified_at'),
+                    ),
+                TernaryFilter::make('avatar')
+                    ->label('Аватар')
+                    ->nullable()
+                    ->placeholder('Все')
+                    ->trueLabel('Есть')
+                    ->falseLabel('Нет')
+                    ->queries(
+                        true: fn (Builder $query) => $query->withAvatar(),
+                        false: fn (Builder $query) => $query->withoutAvatar(),
+                    ),
+                DateRangeFilter::make('created_at')
+                    ->label('Зарегистрирован')
+                    ->withIndicator(),
             ])
+            ->deferFilters()
             ->actions([
                 EditAction::make(),
             ])

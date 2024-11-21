@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\MediaCollectionEnum;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Image\Enums\Fit;
@@ -52,5 +53,15 @@ class User extends Authenticatable implements HasMedia, HasAvatar
         $pic = $this->getFirstMedia(MediaCollectionEnum::userAvatar->value);
 
         return $pic ? asset($pic->getUrl()) : null;
+    }
+
+    public function scopeWithAvatar(Builder $query)
+    {
+        $query->whereHas('media', fn (Builder $query) => $query->whereCollectionName(MediaCollectionEnum::userAvatar->value));
+    }
+
+    public function scopeWithoutAvatar(Builder $query)
+    {
+        $query->whereDoesntHave('media', fn (Builder $query) => $query->whereCollectionName(MediaCollectionEnum::userAvatar->value));
     }
 }
