@@ -84,7 +84,6 @@ class UserResource extends BaseResource
             Select::make('roles')
                 ->label('Роли')
                 ->relationship('roles', 'name')
-                ->required()
                 ->multiple()
                 ->searchable()
                 ->preload()
