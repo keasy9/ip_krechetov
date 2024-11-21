@@ -1,18 +1,19 @@
 <?php
 
-namespace modules\Filament\Resources\UserResource\Pages;
+namespace Modules\Filament\Pages\User;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use modules\Filament\Resources\UserResource;
 
-class ListUsers extends ListRecords
+class ListPage extends ListRecords
 {
     protected static string $resource = UserResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
+
             Actions\CreateAction::make(),
         ];
     }

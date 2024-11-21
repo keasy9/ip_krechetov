@@ -3,9 +3,8 @@
 namespace Modules\Filament\Resources;
 
 use App\Models\User;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -14,26 +13,18 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Modules\Filament\Resources\UserResource\Pages\CreateUser;
-use Modules\Filament\Resources\UserResource\Pages\EditUser;
-use Modules\Filament\Resources\UserResource\Pages\ListUsers;
+use Modules\Filament\Pages\User\CreatePage;
+use Modules\Filament\Pages\User\EditPage;
+use Modules\Filament\Pages\User\ListPage;
 
-class UserResource extends Resource
+class UserResource extends BaseResource
 {
-    protected static ?string $model = User::class;
+    public static ?string $model = User::class;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $recordTitleAttribute = 'name';
     protected static ?string $modelLabel = 'пользователь';
     protected static ?string $pluralModelLabel = 'пользователи';
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('name')->required(),
-                TextInput::make('email')->email()->required(),
-            ]);
-    }
+    protected static ?string $navigationGroup = 'Доступ';
 
     public static function table(Table $table): Table
     {
@@ -79,9 +70,24 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListUsers::route('/'),
-            'create' => CreateUser::route('/create'),
-            'edit' => EditUser::route('/{record}/edit'),
+            'index' => ListPage::route('/'),
+            'create' => CreatePage::route('/create'),
+            'edit' => EditPage::route('/{record}/edit'),
+        ];
+    }
+
+    public static function fields(): array
+    {
+        return [
+            TextInput::make('name')->required(),
+            TextInput::make('email')->email()->required(),
+            Select::make('roles')
+                ->label('Роли')
+                ->relationship('roles', 'name')
+                ->required()
+                ->multiple()
+                ->searchable()
+                ->preload(),
         ];
     }
 }

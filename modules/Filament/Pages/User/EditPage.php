@@ -1,19 +1,19 @@
 <?php
 
-namespace modules\Filament\Resources\UserResource\Pages;
+namespace Modules\Filament\Pages\User;
 
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
-use modules\Filament\Resources\UserResource;
+use Modules\Filament\Resources\UserResource;
 
-class EditUser extends EditRecord
+class EditPage extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }
