@@ -2,8 +2,12 @@
 
 namespace Modules\Filament\Resources;
 
+use App\Enums\MediaCollectionEnum;
 use App\Models\User;
+use Filament\Forms\Components\BaseFileUpload;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -13,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Modules\Filament\Pages\User\CreatePage;
 use Modules\Filament\Pages\User\EditPage;
 use Modules\Filament\Pages\User\ListPage;
@@ -79,8 +84,24 @@ class UserResource extends BaseResource
     public static function fields(): array
     {
         return [
-            TextInput::make('name')->required(),
-            TextInput::make('email')->email()->required(),
+            TextInput::make('name')
+                ->label('Имя')
+                ->required(),
+
+            SpatieMediaLibraryFileUpload::make('avatar')
+                ->label('Аватар')
+                ->image()
+                ->imageEditor()
+                ->imageEditorAspectRatios([null, '1:1'])
+                ->circleCropper()
+                ->avatar()
+                ->collection(MediaCollectionEnum::userAvatar->value),
+
+            TextInput::make('email')
+                ->label('Email')
+                ->email()
+                ->required(),
+
             Select::make('roles')
                 ->label('Роли')
                 ->relationship('roles', 'name')
