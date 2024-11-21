@@ -33,6 +33,25 @@ class RoleResource extends BaseResource
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
+
+                TextColumn::make('permissions.name')
+                    ->listWithLineBreaks()
+                    ->limitList(1)
+                    ->expandableLimitedList(),
+
+                TextColumn::make('created_at')
+                    ->label('Создано')
+                    ->sortable()
+                    ->toggleable()
+                    ->since()
+                    ->dateTimeTooltip(),
+
+                TextColumn::make('updated_at')
+                    ->label('Последнее редактирование')
+                    ->sortable()
+                    ->toggleable()
+                    ->since()
+                    ->dateTimeTooltip(),
             ])
             ->filters([
             ])

@@ -38,12 +38,16 @@ class UserResource extends BaseResource
             ->columns([
                 TextColumn::make('email')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->copyable()
+                    ->copyMessage('Email скопирован'),
+
                 TextColumn::make('name')
                     ->label('Имя')
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
+
                 IconColumn::make('email_verified_at')
                     ->getStateUsing(fn (User $user) => $user->hasVerifiedEmail())
                     ->boolean()
@@ -51,10 +55,25 @@ class UserResource extends BaseResource
                     ->tooltip(fn (User $user) => $user->email_verified_at)
                     ->sortable()
                     ->toggleable(),
+
                 SpatieMediaLibraryImageColumn::make('avatar')
                     ->label('Аватар')
                     ->collection(MediaCollectionEnum::userAvatar->value)
                     ->circular(),
+
+                TextColumn::make('created_at')
+                    ->label('Зарегистрирован')
+                    ->sortable()
+                    ->toggleable()
+                    ->since()
+                    ->dateTimeTooltip(),
+
+                TextColumn::make('updated_at')
+                    ->label('Последнее редактирование')
+                    ->sortable()
+                    ->toggleable()
+                    ->since()
+                    ->dateTimeTooltip(),
             ])
             ->filters([
                 Filter::make('verified')
