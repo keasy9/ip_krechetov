@@ -13,6 +13,7 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
@@ -50,6 +51,10 @@ class UserResource extends BaseResource
                     ->tooltip(fn (User $user) => $user->email_verified_at)
                     ->sortable()
                     ->toggleable(),
+                SpatieMediaLibraryImageColumn::make('avatar')
+                    ->label('Аватар')
+                    ->collection(MediaCollectionEnum::userAvatar->value)
+                    ->circular(),
             ])
             ->filters([
                 Filter::make('verified')
