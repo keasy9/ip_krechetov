@@ -20,12 +20,19 @@ class PagePartialService
 
     protected function loadPartials(string $pageCode, ?array $with = []): Collection
     {
-        return Cache::tags([PagePartial::getCacheTag()])
-            ->remember('page-partials.' . $pageCode . implode('_', $with), PagePartial::getCacheTime(), function () use ($pageCode, $with) {
-                return PagePartial::wherePageCode($pageCode)
-                    ->with($with)
-                    ->get()
-                    ->keyBy('slug');
-            });
+        if (Cache::supportsTags()) {
+            return Cache::tags([PagePartial::getCacheTag()])->remember(
+                "page-partials.{$pageCode}" . implode('_', $with),
+                PagePartial::getCacheTime(),
+                fn () => $this->getPartials($pageCode, $with),
+            );
+        }
+
+        return $this->getPartials($pageCode, $with);
+    }
+
+    protected function getPartials(string $pageCode, ?array $with): Collection
+    {
+        return PagePartial::wherePageCode($pageCode)->with($with)->get()->keyBy('slug');
     }
 }

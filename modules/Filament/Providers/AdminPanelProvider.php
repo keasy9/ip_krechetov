@@ -33,7 +33,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: base_path('modules/Filament/Resources'), for: 'Modules\\Filament\\Resources')
             ->discoverPages(in: base_path('modules/Filament/Pages'), for: 'Modules\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('modules/Filament/Widgets'), for: 'Modules\\Filament\\Widgets')
             ->widgets([
