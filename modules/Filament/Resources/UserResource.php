@@ -57,6 +57,12 @@ class UserResource extends BaseResource
                     ->sortable()
                     ->toggleable(),
 
+                TextColumn::make('roles.name')
+                    ->label('Роли')
+                    ->listWithLineBreaks()
+                    ->limitList(1)
+                    ->expandableLimitedList(),
+
                 SpatieMediaLibraryImageColumn::make('avatar')
                     ->label('Аватар')
                     ->collection(MediaCollectionEnum::userAvatar->value)

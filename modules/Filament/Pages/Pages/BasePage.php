@@ -2,6 +2,7 @@
 
 namespace Modules\Filament\Pages\Pages;
 
+use App\Enums\PermissionEnum;
 use App\Models\PagePartial;
 use App\Services\PagePartialService;
 use Filament\Actions\Action;
@@ -22,8 +23,7 @@ abstract class BasePage extends FilamentPage implements HasForms
 
     public static function canAccess(): bool
     {
-        return true;
-        // todo return auth()->user()->hasPermissionTo(PermissionEnum::pages->value);
+        return auth()->user()->hasPermissionTo(PermissionEnum::pages->value);
     }
 
     protected function getHeaderActions(): array
@@ -37,7 +37,13 @@ abstract class BasePage extends FilamentPage implements HasForms
 
     public function mount(): void
     {
-        $this->form->fill(PagePartialService::get(static::$pageCode)->toArray());
+        $this->form->fill(
+            PagePartialService::get(static::$pageCode)
+                ->map(fn ($item) => $item->value)
+                ->filter()
+                ->map(fn ($item) => json_decode($item, true) ?: $item ?: '')
+                ->toArray()
+        );
     }
 
     public function form(Form $form): Form
@@ -66,14 +72,6 @@ abstract class BasePage extends FilamentPage implements HasForms
 
     public function save($data): void
     {
-        /* todo $this->validate([
-            'title'       => ['string', 'nullable'],
-            'h1'          => ['string', 'nullable'],
-            'description' => ['string', 'nullable'],
-            'keywords'    => ['string', 'nullable'],
-            ...static::rules(),
-        ]);*/
-
         foreach ($data as $slug => $value) {
             if (is_array($value)) {
                 $value = json_encode($value, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);

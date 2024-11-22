@@ -35,6 +35,7 @@ class RoleResource extends BaseResource
                     ->toggleable(),
 
                 TextColumn::make('permissions.name')
+                    ->label('Права')
                     ->listWithLineBreaks()
                     ->limitList(1)
                     ->expandableLimitedList(),
