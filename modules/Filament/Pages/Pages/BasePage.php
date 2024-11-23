@@ -21,6 +21,27 @@ abstract class BasePage extends FilamentPage implements HasForms
     protected static string $view = 'modules.filament.pages.page';
     public ?array $data = [];
 
+    public static function defaultFields(): array
+    {
+        return [
+            TextInput::make('title')
+                ->label('Заголовок окна браузера')
+                ->prefix('<title>')
+                ->suffix('</title>'),
+            TextInput::make('h1')
+                ->label('Заголовок страницы')
+                ->prefix('<h1>')
+                ->suffix('</h1>')
+                ->helperText('Заголовок в теле страницы'),
+            Textarea::make('description')
+                ->label('Описание')
+                ->helperText('META-тег DESCRIPTION для поисковых роботов'),
+            Textarea::make('keywords')
+                ->label('Ключевые слова')
+                ->helperText('META-тег KEYWORDS для поисковых роботов'),
+        ];
+    }
+
     public static function canAccess(): bool
     {
         return auth()->user()->hasPermissionTo(PermissionEnum::pages->value);
@@ -50,21 +71,7 @@ abstract class BasePage extends FilamentPage implements HasForms
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->label('Заголовок окна браузера')
-                    ->prefix('<title>')
-                    ->suffix('</title>'),
-                TextInput::make('h1')
-                    ->label('Заголовок страницы')
-                    ->prefix('<h1>')
-                    ->suffix('</h1>')
-                    ->helperText('Заголовок в теле страницы'),
-                Textarea::make('description')
-                    ->label('Описание')
-                    ->helperText('META-тег DESCRIPTION для поисковых роботов'),
-                Textarea::make('keywords')
-                    ->label('Ключевые слова')
-                    ->helperText('META-тег KEYWORDS для поисковых роботов'),
+                ...static::defaultFields(),
                 ...static::fields(),
             ])
             ->statePath('data');

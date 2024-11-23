@@ -4,9 +4,6 @@ namespace Modules\Filament\Resources;
 
 use App\Enums\MediaCollectionEnum;
 use App\Models\User;
-use Filament\Forms\Components\BaseFileUpload;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
