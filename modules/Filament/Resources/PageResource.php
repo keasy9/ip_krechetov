@@ -158,7 +158,11 @@ class PageResource extends BaseResource
                 ->required()
                 ->helperText('Ссылка, по которой будет доступна эта страница')
                 ->prefix(url(config('app.url')) . '/'),
-            // todo tinymce. Чтобы загрузка файлов работала со spatie/laravel-medialibrary придётся свой плагин писать. Пример есть тут: https://filamentphp.com/plugins/amid-tinyeditor
+            /**
+             * todo tinymce. Чтобы загрузка файлов работала со spatie/laravel-medialibrary возможно и не придётся свой
+             *  плагин писать. Попробовать этот: https://filamentphp.com/plugins/amid-tinyeditor
+             *  там, кстати, есть вроде бы поддержка сниппетов, но не компонентов
+             */
 
             RichEditor::make('content')
                 ->label('Контент')
