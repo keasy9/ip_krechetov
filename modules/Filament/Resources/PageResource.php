@@ -2,12 +2,16 @@
 
 namespace Modules\Filament\Resources;
 
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Actions\ReplicateAction;
+use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
@@ -39,13 +43,13 @@ class PageResource extends BaseResource
                     ->sortable()
                     ->searchable()
                     ->url(fn (Page $page) =>$page->getUrl())
-                    ->openUrlInNewTab(),
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-arrow-top-right-on-square'),
 
                 TextColumn::make('title')
                     ->label('Заголовок')
                     ->sortable()
                     ->searchable()
-                    ->toggleable()
                     ->placeholder('TODO: Название сайта из настроек'),
 
                 TextColumn::make('h1')
@@ -81,21 +85,41 @@ class PageResource extends BaseResource
                     ->dateTimeTooltip(),
             ])
             ->filters([
-                TrashedFilter::make(),
+                TrashedFilter::make()
+                    ->placeholder('Активные')
+                    ->trueLabel('Все')
+                    ->falseLabel('Архив')
+                    ->label('Архив'),
+
                 DateRangeFilter::make('created_at')
                     ->label('Создано')
                     ->withIndicator(),
             ])
             ->actions([
-                EditAction::make(),
-                // todo кнопка удалить и восстановить с учетом softdeletes
+                EditAction::make()
+                    ->label('')
+                    ->tooltip('Редактировать'),
+
+                DeleteAction::make()
+                    ->label('')
+                    ->tooltip('Архивировать')
+                    ->icon('heroicon-o-archive-box-arrow-down')
+                    ->modalHeading('Архивировать страницу'),
+                // TODO: узнать как убрать подтверждение
+
+                ForceDeleteAction::make()
+                    ->label('')
+                    ->tooltip('Удалить'),
+
+                RestoreAction::make()
+                    ->label('')
+                    ->tooltip('Восстановить')
+                    ->icon('heroicon-o-archive-box-x-mark'),
             ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                ]),
+                DeleteBulkAction::make()->label('Архивировать выбранное')->icon('heroicon-o-archive-box-arrow-down'),
+                ForceDeleteBulkAction::make()->label('Удалить выбранное'),
+                RestoreBulkAction::make()->icon('heroicon-o-archive-box-x-mark'),
             ]);
     }
 
