@@ -21,13 +21,14 @@ abstract class BasePage extends FilamentPage implements HasForms
     protected static string $view = 'modules.filament.pages.page';
     public ?array $data = [];
 
-    public static function defaultFields(): array
+    public static function defaultFields(bool $titleIsRequired = false): array
     {
         return [
             TextInput::make('title')
                 ->label('Заголовок окна браузера')
                 ->prefix('<title>')
-                ->suffix('</title>'),
+                ->suffix('</title>')
+                ->required($titleIsRequired),
             TextInput::make('h1')
                 ->label('Заголовок страницы')
                 ->prefix('<h1>')

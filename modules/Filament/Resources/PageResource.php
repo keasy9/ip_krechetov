@@ -49,8 +49,7 @@ class PageResource extends BaseResource
                 TextColumn::make('title')
                     ->label('Заголовок')
                     ->sortable()
-                    ->searchable()
-                    ->placeholder('TODO: Название сайта из настроек'),
+                    ->searchable(),
 
                 TextColumn::make('h1')
                     ->label('Заголовок H1')
@@ -150,7 +149,7 @@ class PageResource extends BaseResource
     public static function fields(): array
     {
         return [
-            ...BasePage::defaultFields(),
+            ...BasePage::defaultFields(true),
 
             TextInput::make('url')
                 ->label('Адрес')
