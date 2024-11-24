@@ -6,7 +6,10 @@ use App\Enums\MenuEnum;
 use App\Models\MenuItem;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Contracts\Pagination\CursorPaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Modules\Filament\Resources\MenuItemResource;
 
 class ListPage extends ListRecords
@@ -24,5 +27,10 @@ class ListPage extends ListRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('menu_type', MenuEnum::footer->value))
                 ->badge(MenuItem::query()->where('menu_type', MenuEnum::footer->value)->count()),
         ];
+    }
+
+    public function getTableRecords(): Collection|Paginator|CursorPaginator
+    {
+        return new Collection(MenuItem::treeList($this->activeTab));
     }
 }

@@ -44,7 +44,8 @@ class PageResource extends BaseResource
                     ->searchable()
                     ->url(fn (Page $page) =>$page->getUrl())
                     ->openUrlInNewTab()
-                    ->icon('heroicon-o-arrow-top-right-on-square'),
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->prefix(url(config('app.url')) . '/'),
 
                 TextColumn::make('title')
                     ->label('Заголовок')

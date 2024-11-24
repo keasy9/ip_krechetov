@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->string('route')->nullable();
             $table->json('route_params')->nullable();
-            $table->integer('sort')->default(500)->nullable()->index();
+            $table->integer('sort')->default(500)->index();
             $table->bigInteger('parent_id')->nullable();
             $table->string('menu_type')->nullable();
         });
