@@ -129,7 +129,7 @@ class MenuItemResource extends Resource
                         ->hidden()
                         ->default('content.tts'),
 
-                    Select::make('route_params[page]')
+                    Select::make('route_params.page')
                         ->label('Страница')
                         ->model(Page::class)
                         ->searchable()
