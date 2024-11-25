@@ -3,20 +3,25 @@
 namespace Modules\Filament\Pages;
 
 use App\Enums\PermissionEnum;
+use App\Models\Setting;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Navigation\NavigationItem;
 use Filament\Notifications\Notification;
+use Filament\Pages\Concerns\HasSubNavigation;
 use Filament\Pages\Page;
 
-class SettingsPage extends Page implements HasForms
+class Settings extends Page implements HasForms
 {
     use InteractsWithForms;
+    use HasSubNavigation;
     protected static ?string $navigationIcon = 'heroicon-m-adjustments-horizontal';
 
     protected static string $view = 'modules.filament.pages.settings-page';
     protected static ?string $navigationLabel = 'Настройки сайта';
     protected static ?string $title = 'Настройки сайта';
+    protected ?string $sectionCode = null;
 
     public static function canAccess(): bool
     {
@@ -25,6 +30,7 @@ class SettingsPage extends Page implements HasForms
 
     public function mount(): void
     {
+        $this->sectionCode = request()->get('code', null);
         // todo $this->form->fill();
     }
 
@@ -61,5 +67,15 @@ class SettingsPage extends Page implements HasForms
             ->success()
             ->title(__('filament-panels::resources/pages/edit-record.notifications.saved.title'))
             ->send();
+    }
+
+    public function getSubNavigation(): array
+    {
+        return Setting::getSections()->map(function (string $code) {
+            return NavigationItem::make($code)
+                ->label(__($code))
+                ->url(fn (): string => Settings::getUrl(['code' => $code]))
+                ->isActiveWhen(fn (): string => $this->sectionCode === $code);
+        })->toArray();
     }
 }

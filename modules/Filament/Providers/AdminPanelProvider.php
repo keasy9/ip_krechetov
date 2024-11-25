@@ -32,8 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: base_path('modules/Filament/Resources'), for: 'Modules\\Filament\\Resources')
             ->discoverPages(in: base_path('modules/Filament/Pages'), for: 'Modules\\Filament\\Pages')
-            ->pages([
-            ])
+            ->discoverClusters(in: base_path('modules/Filament/Clusters'), for: 'Modules\\Filament\\Clusters')
             ->discoverWidgets(in: app_path('modules/Filament/Widgets'), for: 'Modules\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
