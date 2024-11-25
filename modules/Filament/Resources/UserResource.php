@@ -3,6 +3,7 @@
 namespace Modules\Filament\Resources;
 
 use App\Enums\MediaCollectionEnum;
+use App\Enums\PermissionEnum;
 use App\Models\User;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -160,5 +161,10 @@ class UserResource extends BaseResource
                 ->preload()
                 ->createOptionForm(RoleResource::fields()),
         ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->hasPermissionTo(PermissionEnum::users->value);
     }
 }

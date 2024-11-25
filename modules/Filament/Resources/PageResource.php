@@ -2,6 +2,7 @@
 
 namespace Modules\Filament\Resources;
 
+use App\Enums\PermissionEnum;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Forms\Components\RichEditor;
@@ -169,5 +170,10 @@ class PageResource extends BaseResource
                 ->columnSpan(2)
                 ->required(),
         ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->hasPermissionTo(PermissionEnum::pages->value);
     }
 }

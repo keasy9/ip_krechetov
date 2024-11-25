@@ -3,6 +3,7 @@
 namespace Modules\Filament\Resources;
 
 use App\Enums\PageEnum;
+use App\Enums\PermissionEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
@@ -213,5 +214,10 @@ class MenuItemResource extends Resource
                         ->getOptionLabelsUsing(fn (array $values) => Page::whereIn('id', $values)->pluck('title', 'id')->toArray()),
                 ]),
         ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->hasPermissionTo(PermissionEnum::menu->value);
     }
 }

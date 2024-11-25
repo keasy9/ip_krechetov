@@ -2,6 +2,7 @@
 
 namespace Modules\Filament\Resources;
 
+use App\Enums\PermissionEnum;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -96,5 +97,10 @@ class RoleResource extends BaseResource
             'create' => CreatePage::route('/create'),
             'edit' => EditPage::route('/{record}/edit'),
         ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()->hasPermissionTo(PermissionEnum::roles->value);
     }
 }
