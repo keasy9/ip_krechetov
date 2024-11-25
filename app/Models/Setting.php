@@ -6,6 +6,7 @@ use App\Traits\CacheTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Modules\Filament\Enums\SettingTypeEnum;
 
 class Setting extends Model
 {
@@ -13,6 +14,9 @@ class Setting extends Model
     use CacheTrait;
 
     protected $guarded = ['id'];
+    protected $casts = [
+        'type' => SettingTypeEnum::class,
+    ];
 
     public function getValue(string $default = ''): string
     {

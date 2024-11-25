@@ -4,6 +4,7 @@ namespace Modules\Filament\Pages;
 
 use App\Enums\PermissionEnum;
 use App\Models\Setting;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -11,6 +12,7 @@ use Filament\Navigation\NavigationItem;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\HasSubNavigation;
 use Filament\Pages\Page;
+use Modules\Filament\Enums\SettingTypeEnum;
 
 class Settings extends Page implements HasForms
 {
@@ -31,32 +33,23 @@ class Settings extends Page implements HasForms
     public function mount(): void
     {
         $this->sectionCode = request()->get('code', null);
-        // todo $this->form->fill();
-    }
-
-    protected function getForms(): array
-    {
-        $forms = [
-            'form'
-        ];
-
-        /**
-         *todo
-         * foreach(Setting::where('code', 'like', "{$this->code}.%")->get() as $setting) {
-         *     $forms[] = ...
-         * }
-         */
-
-        return $forms;
     }
 
     public function form(Form $form): Form
     {
+        $fields = [];
+
+        foreach(Setting::where('code', 'like', "{$this->sectionCode}.%")->get() as $setting) {
+            if ($setting->type === SettingTypeEnum::text) {
+                $fields[] = Textarea::make($setting->code)
+                    ->label(__($setting->code));
+            }
+        }
+
         return $form
             ->schema([
                 // todo
-            ])
-            ->statePath('data');
+            ]);
     }
 
     public function save($data): void
