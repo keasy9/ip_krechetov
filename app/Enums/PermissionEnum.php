@@ -7,4 +7,5 @@ enum PermissionEnum: string
     case roles = 'roles';
     case pages = 'content.pages';
     case menu = 'content.menu';
+    case settings = 'settings';
 }

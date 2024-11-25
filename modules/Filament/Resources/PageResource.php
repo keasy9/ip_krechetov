@@ -23,7 +23,7 @@ use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Modules\Filament\Pages\Pages\BasePage;
 use Modules\Filament\Pages\Pages\Text\CreatePage;
 use Modules\Filament\Pages\Pages\Text\EditPage;
-use Modules\Filament\Pages\Pages\Text\ListPages;
+use Modules\Filament\Pages\Pages\Text\ListPage;
 use Modules\TextContent\Models\Page;
 
 class PageResource extends BaseResource
@@ -134,7 +134,7 @@ class PageResource extends BaseResource
     public static function getPages(): array
     {
         return [
-            'index' => ListPages::route('/'),
+            'index' => ListPage::route('/'),
             'create' => CreatePage::route('/create'),
             'edit' => EditPage::route('/{record}/edit'),
         ];
