@@ -19,7 +19,7 @@ abstract class BasePage extends FilamentPage implements HasForms
     use InteractsWithForms;
 
     protected static string $view = 'modules.filament.pages.page';
-    protected static ?string $navigationGroup = 'Настройки страниц';
+    protected static ?string $navigationGroup = 'Контент';
     public ?array $data = [];
 
     public static function defaultFields(bool $titleIsRequired = false): array

@@ -29,6 +29,8 @@ class MenuItemResource extends Resource
     protected static ?string $recordTitleAttribute = 'title';
     protected static ?string $modelLabel = 'Элемент меню';
     protected static ?string $pluralModelLabel = 'Меню сайта';
+    protected static ?string $navigationGroup = 'Контент';
+    protected static ?int $navigationSort = 0;
 
     public static function table(Table $table): Table
     {

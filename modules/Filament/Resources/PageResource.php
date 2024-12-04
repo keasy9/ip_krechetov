@@ -32,8 +32,9 @@ class PageResource extends BaseResource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $recordTitleAttribute = 'title';
     protected static ?string $modelLabel = 'страница';
-    protected static ?string $pluralModelLabel = 'типовые текстовые';
-    protected static ?string $navigationGroup = 'Настройки страниц';
+    protected static ?string $pluralModelLabel = 'типовые текстовые страницы';
+    protected static ?string $navigationGroup = 'Контент';
+    protected static ?int $navigationSort = 3;
 
     public static function table(Table $table): Table
     {

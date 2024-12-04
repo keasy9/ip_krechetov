@@ -97,6 +97,7 @@ class RoleResource extends BaseResource
                 ->label('Название')
                 ->required(),
 
+            // todo проверка на юэке при сохранении
             CheckboxList::make('permissions')
                 ->label('Разрешения')
                 ->relationship('permissions', 'name')
