@@ -12,9 +12,11 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Filament\Pages\Role\CreatePage;
 use Modules\Filament\Pages\Role\EditPage;
 use Modules\Filament\Pages\Role\ListPage;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleResource extends BaseResource
@@ -87,6 +89,9 @@ class RoleResource extends BaseResource
 
     public static function fields(): array
     {
+        /** @var User $user */
+        $user = auth()->user();
+
         return [
             TextInput::make('name')
                 ->label('Название')
@@ -97,7 +102,8 @@ class RoleResource extends BaseResource
                 ->relationship('permissions', 'name')
                 ->searchable()
                 ->columns()
-                ->bulkToggleable(),
+                ->bulkToggleable()
+                ->disableOptionWhen(fn ($label): bool => !($user->can(PermissionEnum::fullPermissions) || $user->can($label))),
         ];
     }
 

@@ -8,5 +8,5 @@ enum PermissionEnum: string
     case ownRole = 'roles.own';
     case pages = 'content.pages';
     case menu = 'content.menu';
-    case settings = 'settings';
+    case fullPermissions = 'permissions.full';
 }
