@@ -3,6 +3,7 @@
 namespace Modules\Filament\Resources;
 
 use App\Enums\PermissionEnum;
+use App\Models\User;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\DeleteAction;
@@ -10,6 +11,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Filament\Pages\Role\CreatePage;
 use Modules\Filament\Pages\Role\EditPage;
 use Modules\Filament\Pages\Role\ListPage;
@@ -26,6 +28,10 @@ class RoleResource extends BaseResource
 
     public static function table(Table $table): Table
     {
+        /** @var User $user */
+        $user = auth()->user();
+        $canEditOwnRoles = $user->can(PermissionEnum::ownRole);
+
         return $table
             ->columns([
                 TextColumn::make('name')
@@ -57,12 +63,19 @@ class RoleResource extends BaseResource
             ->filters([
             ])
             ->actions([
-                EditAction::make()->label('')->tooltip('Редактировать'),
-                DeleteAction::make()->label('')->tooltip('Удалить'),
+                EditAction::make()
+                    ->label('')
+                    ->tooltip('Редактировать')
+                    ->disabled(fn (Role $role) => !$canEditOwnRoles && $user->hasRole($role)),
+
+                DeleteAction::make()
+                    ->label('')
+                    ->tooltip('Удалить')
+                    ->disabled(fn (Role $role) => !$canEditOwnRoles && $user->hasRole($role)),
             ])
-            ->bulkActions([
-                DeleteBulkAction::make(),
-            ]);
+            ->bulkActions([DeleteBulkAction::make()])
+            ->recordUrl(fn (Role $role) => $canEditOwnRoles || !$user->hasRole($role) ? EditPage::getUrl([$role->getKey()]) : null)
+            ->checkIfRecordIsSelectableUsing(fn (Role $role) => $canEditOwnRoles || !$user->hasRole($role));
     }
 
     public static function getRelations(): array
