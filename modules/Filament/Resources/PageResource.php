@@ -33,7 +33,7 @@ class PageResource extends BaseResource
     protected static ?string $recordTitleAttribute = 'title';
     protected static ?string $modelLabel = 'страница';
     protected static ?string $pluralModelLabel = 'типовые текстовые';
-    protected static ?string $navigationGroup = 'Страницы';
+    protected static ?string $navigationGroup = 'Настройки страниц';
 
     public static function table(Table $table): Table
     {

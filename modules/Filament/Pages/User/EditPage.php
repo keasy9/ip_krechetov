@@ -3,7 +3,6 @@
 namespace Modules\Filament\Pages\User;
 
 use App\Enums\MediaCollectionEnum;
-use App\Models\User;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Modules\Filament\Resources\UserResource;
