@@ -159,12 +159,18 @@ class UserResource extends BaseResource
                 ->multiple()
                 ->searchable()
                 ->preload()
-                ->createOptionForm(RoleResource::fields()),
+                ->createOptionForm(RoleResource::fields())
+                ->disabled(fn() => auth()->user()->cant(PermissionEnum::roles)), //todo валидация на бэке при сохранении
         ];
     }
 
     public static function canAccess(): bool
     {
         return auth()->user()->hasPermissionTo(PermissionEnum::users->value);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->whereNot('id', auth()->id());
     }
 }
