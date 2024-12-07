@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\View\Composers\BaseComposer;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Finder\Finder;
 
 abstract class BaseModuleProvider extends ServiceProvider
 {
+    protected static ?string $composer = null;
+
     /**
      * Register any application services.
      *
@@ -53,6 +58,16 @@ abstract class BaseModuleProvider extends ServiceProvider
         $this->loadViewsFrom(base_path('modules/' . $moduleName . '/resources/views'), $kebabModuleName);
         $this->loadTranslationsFrom(base_path('modules/' . $moduleName . '/resources/lang'), $kebabModuleName);
         Blade::componentNamespace('Modules\\' . $moduleName . '\\Views\\Components', $kebabModuleName);
+
+        ViewFacade::composer('*', BaseComposer::class);
+
+        if (static::$composer) {
+            ViewFacade::composer('*', function (View $view) use ($kebabModuleName) {
+                if (Str::startsWith($view->getName(), "{$kebabModuleName}::")) {
+                    app(static::$composer)->compose($view);
+                }
+            });
+        }
     }
 
     /**

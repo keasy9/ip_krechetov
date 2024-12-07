@@ -8,7 +8,6 @@ use App\Providers\BaseModuleProvider;
 
 class ModuleServiceProvider extends BaseModuleProvider
 {
-
     protected function getModuleName(): string
     {
         return 'Filament';

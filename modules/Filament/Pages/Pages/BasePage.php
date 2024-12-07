@@ -22,7 +22,7 @@ abstract class BasePage extends FilamentPage implements HasForms
     protected static ?string $navigationGroup = 'Контент';
     public ?array $data = [];
 
-    public static function defaultFields(bool $titleIsRequired = false): array
+    public function defaultFields(bool $titleIsRequired = false): array
     {
         return [
             TextInput::make('title')
@@ -60,21 +60,18 @@ abstract class BasePage extends FilamentPage implements HasForms
 
     public function mount(): void
     {
-        $this->form->fill(
-            PagePartialService::get(static::$pageCode)
-                ->map(fn ($item) => $item->value)
-                ->filter()
-                ->map(fn ($item) => json_decode($item, true) ?: $item ?: '')
-                ->toArray()
-        );
+        $this->data = PagePartialService::get(static::$pageCode)
+            ->toArray();
+
+        $this->form->fill($this->data);
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                ...static::defaultFields(),
-                ...static::fields(),
+                ...$this->defaultFields(),
+                ...$this->fields(),
             ])
             ->statePath('data');
     }
@@ -98,7 +95,7 @@ abstract class BasePage extends FilamentPage implements HasForms
             ->send();
     }
 
-    public static function fields(): array
+    public function fields(): array
     {
         return [];
     }

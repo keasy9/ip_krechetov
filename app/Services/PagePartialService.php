@@ -15,7 +15,10 @@ class PagePartialService
      */
     public static function get(PageEnum $pageCode, ?array $with = []): Collection
     {
-        return app(static::class)->loadPartials($pageCode->name, $with);
+        return app(static::class)
+            ->loadPartials($pageCode->name, $with)
+            ->pluck('value', 'slug')
+            ->map(fn ($item) => json_decode($item, true) ?: $item ?: '');
     }
 
     protected function loadPartials(string $pageCode, ?array $with = []): Collection
