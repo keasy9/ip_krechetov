@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Main\Http\Controllers;
+
+use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
@@ -12,6 +14,6 @@ class IndexController extends Controller
             ],
         ];
 
-        return view('welcome', $data);
+        return view('main::welcome', $data);
     }
 }

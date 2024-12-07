@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Filament\Providers;
+namespace Modules\Main\Providers;
 
 use App\Providers\BaseModuleProvider;
 
@@ -11,13 +11,12 @@ class ModuleServiceProvider extends BaseModuleProvider
 
     protected function getModuleName(): string
     {
-        return 'Filament';
+        return 'Main';
     }
 
     protected function getProviderList(): array
     {
         return [
-            AdminPanelProvider::class,
         ];
     }
 }
