@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Modules\TextContent\Providers;
+namespace Modules\Content\Providers;
 
 use App\Providers\BaseModuleProvider;
-use Modules\TextContent\Models\Page;
+use Modules\Content\Models\Page;
 
 class ModuleServiceProvider extends BaseModuleProvider
 {
 
     protected function getModuleName(): string
     {
-        return 'TextContent';
+        return 'Content';
     }
 
     protected function getProviderList(): array

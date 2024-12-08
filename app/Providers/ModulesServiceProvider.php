@@ -12,7 +12,7 @@ class ModulesServiceProvider extends ServiceProvider
     {
         $modules = [
             \Modules\Filament\Providers\ModuleServiceProvider::class,
-            \Modules\TextContent\Providers\ModuleServiceProvider::class,
+            \Modules\Content\Providers\ModuleServiceProvider::class,
             \Modules\Main\Providers\ModuleServiceProvider::class,
         ];
 

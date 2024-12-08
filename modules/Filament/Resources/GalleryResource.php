@@ -3,12 +3,12 @@
 namespace Modules\Filament\Resources;
 
 use App\Enums\PermissionEnum;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
@@ -18,57 +18,29 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
-use Modules\Filament\Pages\Pages\BasePage;
-use Modules\Filament\Pages\Pages\Text\CreatePage;
-use Modules\Filament\Pages\Pages\Text\EditPage;
-use Modules\Filament\Pages\Pages\Text\ListPage;
-use Modules\Content\Models\Page;
+use Modules\Content\Models\Gallery;
+use Modules\Filament\Pages\Gallery\CreatePage;
+use Modules\Filament\Pages\Gallery\EditPage;
+use Modules\Filament\Pages\Gallery\ListPage;
 
-class PageResource extends BaseResource
+class GalleryResource extends BaseResource
 {
-    protected static ?string $model = Page::class;
+    protected static ?string $model = Gallery::class;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $recordTitleAttribute = 'title';
-    protected static ?string $modelLabel = 'страница';
-    protected static ?string $pluralModelLabel = 'типовые текстовые страницы';
+    protected static ?string $modelLabel = 'медиагелерею';
+    protected static ?string $pluralModelLabel = 'медиагалереи';
     protected static ?string $navigationGroup = 'Контент';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('url')
-                    ->label('Адрес')
-                    ->sortable()
-                    ->searchable()
-                    ->url(fn (Page $page) =>$page->getUrl())
-                    ->openUrlInNewTab()
-                    ->icon('heroicon-o-arrow-top-right-on-square')
-                    ->prefix(url(config('app.url')) . '/'),
-
-                TextColumn::make('title')
-                    ->label('Заголовок')
+                TextColumn::make('name')
+                    ->label('Название')
                     ->sortable()
                     ->searchable(),
-
-                TextColumn::make('h1')
-                    ->label('Заголовок H1')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(),
-
-                TextColumn::make('description')
-                    ->label('SEO-описание')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(),
-
-                TextColumn::make('keywords')
-                    ->label('Ключевые слова для SEO')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(),
 
                 TextColumn::make('created_at')
                     ->label('Создано')
@@ -105,7 +77,7 @@ class PageResource extends BaseResource
                     ->tooltip('Архивировать')
                     ->icon('heroicon-o-archive-box-arrow-down')
                     ->modalHeading('Архивировать страницу'),
-                // TODO: узнать как убрать подтверждение
+                // TODO: как убрать подтверждение?
 
                 ForceDeleteAction::make()
                     ->label('')
@@ -150,22 +122,8 @@ class PageResource extends BaseResource
     public static function fields(): array
     {
         return [
-            ...BasePage::defaultFields(true),
-
-            TextInput::make('url')
-                ->label('Адрес')
-                ->columnSpan(2)
-                ->required()
-                ->helperText('Ссылка, по которой будет доступна эта страница')
-                ->prefix(url(config('app.url')) . '/'),
-            /**
-             * todo tinymce. Чтобы загрузка файлов работала со spatie/laravel-medialibrary возможно и не придётся свой
-             *  плагин писать. Попробовать этот: https://filamentphp.com/plugins/amid-tinyeditor
-             *  там, кстати, есть вроде бы поддержка сниппетов, но не компонентов
-             */
-
-            RichEditor::make('content')
-                ->label('Контент')
+            TextInput::make('name')
+                ->label('Название')
                 ->columnSpan(2)
                 ->required(),
         ];
