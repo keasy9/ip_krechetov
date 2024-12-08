@@ -61,6 +61,8 @@ class GalleryResource extends BaseResource
                     ->toggleable()
                     ->since()
                     ->dateTimeTooltip(),
+
+                TextColumn::make('items_count')->label('Элементов')
             ])
             ->filters([
                 TrashedFilter::make()
@@ -99,7 +101,7 @@ class GalleryResource extends BaseResource
                 DeleteBulkAction::make()->label('Архивировать выбранное')->icon('heroicon-o-archive-box-arrow-down'),
                 ForceDeleteBulkAction::make()->label('Удалить выбранное'),
                 RestoreBulkAction::make()->icon('heroicon-o-archive-box-x-mark'),
-            ]);
+            ])->modifyQueryUsing(fn (Builder $query) => $query->withCount('items'));
     }
 
     public static function getRelations(): array
