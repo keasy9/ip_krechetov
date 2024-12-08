@@ -4,6 +4,7 @@ namespace Modules\Filament\Resources;
 
 use App\Enums\PageEnum;
 use App\Enums\PermissionEnum;
+use App\Models\MenuItem;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
@@ -16,11 +17,11 @@ use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
-use Illuminate\Support\Str;
-use Modules\Filament\Pages\MenuItem\ListPage;
-use App\Models\MenuItem;
 use Filament\Tables\Table;
-use Modules\TextContent\Models\Page;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use Modules\Content\Models\Page;
+use Modules\Filament\Pages\MenuItem\ListPage;
 
 class MenuItemResource extends Resource
 {
@@ -38,28 +39,32 @@ class MenuItemResource extends Resource
             ->columns([
                 TextColumn::make('title')
                     ->label('Название')
-                    ->getStateUsing(function(MenuItem $item) {
+                    ->getStateUsing(function (MenuItem $item) {
                         return Str::repeat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", $item->level) . $item->title;
                     })->html(),
 
                 TextColumn::make('url')
                     ->label('Ссылка')
-                    ->url(fn (MenuItem $item) => $item->getUrl())
+                    ->url(fn(MenuItem $item) => $item->getUrl())
                     ->openUrlInNewTab()
-                    ->getStateUsing(fn (MenuItem $item) => $item->getUrl())
+                    ->getStateUsing(fn(MenuItem $item) => $item->getUrl())
                     ->icon('heroicon-o-arrow-top-right-on-square'),
 
                 TextColumn::make('sort')
                     ->label('Сортировка'),
-                // todo кнопки-стрелки для сортировки
+                // todo кнопки-стрелки для сортировки. стандартная сортировка не подходит из-за древовидной структуры
 
                 ToggleColumn::make('deleted_at')
                     ->label('Выводить на сайте')
-                    ->updateStateUsing(function(bool $state, MenuItem $item) {
-                        $item->deleted_at = $state ? now() : null;
-                        $item->save();
+                    ->updateStateUsing(function (bool $state, MenuItem $item) {
+                        if ($state) {
+                            $item->restore();
+                        } elseif(!$item->trashed()) {
+                            $item->delete();
+                        }
+                        // todo при удалении родителя надо показать детей удалёнными, при восстановлении показать их реальное сосотяние
                     })
-                    ->getStateUsing(fn (MenuItem $item) => !$item->deleted_at),
+                    ->getStateUsing(fn(MenuItem $item) => !$item->deleted_at),
 
                 TextColumn::make('created_at')
                     ->label('Создано')
@@ -96,7 +101,7 @@ class MenuItemResource extends Resource
                         }
                     }),
 
-                EditAction::make() // здесь имеет смылс использовать EditAction с его стандартной иконкой
+                EditAction::make()
                     ->label('')
                     ->tooltip('Редактировать')
                     ->modalHeading('')
@@ -132,7 +137,7 @@ class MenuItemResource extends Resource
             ])
             ->headerActions([
                 Action::make('create') // нет смысла использовать CreateAction, т.к. всё переопределяем вручную
-                    ->label('Создать')
+                ->label('Создать')
                     ->steps(static::getSteps())
                     ->modalHeading('')
                     ->action(function (array $data, $livewire) {
@@ -148,8 +153,9 @@ class MenuItemResource extends Resource
                         } else {
                             Notification::make()->danger()->title('Ошибка')->send();
                         }
-                    })
-            ])->paginated(false);
+                    }),
+            ])
+            ->paginated(false);
     }
 
     public static function getPages(): array
@@ -183,11 +189,11 @@ class MenuItemResource extends Resource
                         'link' => 'Ссылка',
                         'page' => 'Страница сайта',
                         'tts'  => 'Типовая текстовая страница',
-                    ])
+                    ]),
             ]),
 
             Step::make('Ссылка')
-                ->hidden(fn (Get $get) => $get('type') !== 'link')
+                ->hidden(fn(Get $get) => $get('type') !== 'link')
                 ->schema([
                     TextInput::make('url')
                         ->label('Ссылка')
@@ -196,7 +202,7 @@ class MenuItemResource extends Resource
                 ]),
 
             Step::make('Страница')
-                ->hidden(fn (Get $get) => $get('type') !== 'page')
+                ->hidden(fn(Get $get) => $get('type') !== 'page')
                 ->schema([
                     Select::make('route')
                         ->label('Страница')
@@ -206,14 +212,14 @@ class MenuItemResource extends Resource
                 ]),
 
             Step::make('Страница')
-                ->hidden(fn (Get $get) => $get('type') !== 'tts')
+                ->hidden(fn(Get $get) => $get('type') !== 'tts')
                 ->schema([
                     Select::make('route_params.page')
                         ->label('Страница')
                         ->options(Page::limit(50)->pluck('title', 'id')->toArray())
                         ->searchable()
-                        ->getSearchResultsUsing(fn (string $search) => Page::where('title', 'like', "%{$search}%")->limit(50)->pluck('title', 'id')->toArray())
-                        ->getOptionLabelsUsing(fn (array $values) => Page::whereIn('id', $values)->pluck('title', 'id')->toArray()),
+                        ->getSearchResultsUsing(fn(string $search) => Page::where('title', 'like', "%{$search}%")->limit(50)->pluck('title', 'id')->toArray())
+                        ->getOptionLabelsUsing(fn(array $values) => Page::whereIn('id', $values)->pluck('title', 'id')->toArray()),
                 ]),
         ];
     }
@@ -221,5 +227,10 @@ class MenuItemResource extends Resource
     public static function canAccess(): bool
     {
         return auth()->user()->hasPermissionTo(PermissionEnum::menu->value);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->withTrashed();
     }
 }

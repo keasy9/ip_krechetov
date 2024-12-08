@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Filament\Pages\Pages;
+namespace Modules\Filament\Pages\Page;
 
 use App\Enums\PageEnum;
 

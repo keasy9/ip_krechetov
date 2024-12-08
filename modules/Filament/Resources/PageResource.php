@@ -18,10 +18,10 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
-use Modules\Filament\Pages\Pages\BasePage;
-use Modules\Filament\Pages\Pages\Text\CreatePage;
-use Modules\Filament\Pages\Pages\Text\EditPage;
-use Modules\Filament\Pages\Pages\Text\ListPage;
+use Modules\Filament\Pages\Page\BasePage;
+use Modules\Filament\Pages\Page\Text\CreatePage;
+use Modules\Filament\Pages\Page\Text\EditPage;
+use Modules\Filament\Pages\Page\Text\ListPage;
 use Modules\Content\Models\Page;
 
 class PageResource extends BaseResource

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Filament\Pages\Pages;
+namespace Modules\Filament\Pages\Page;
 
 use App\Enums\PageEnum;
 use Filament\Forms\Components\Fieldset;
@@ -18,7 +18,7 @@ class Shared extends BasePage
     protected static ?int $navigationSort = 1;
     protected static PageEnum $pageCode = PageEnum::shared;
 
-    public function defaultFields(bool $titleIsRequired = false): array
+    public static function defaultFields(bool $titleIsRequired = false): array
     {
         return [];
     }

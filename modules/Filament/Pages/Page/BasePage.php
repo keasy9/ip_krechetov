@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Filament\Pages\Pages;
+namespace Modules\Filament\Pages\Page;
 
 use App\Enums\PermissionEnum;
 use App\Models\PagePartial;
@@ -22,7 +22,7 @@ abstract class BasePage extends FilamentPage implements HasForms
     protected static ?string $navigationGroup = 'Контент';
     public ?array $data = [];
 
-    public function defaultFields(bool $titleIsRequired = false): array
+    public static function defaultFields(bool $titleIsRequired = false): array
     {
         return [
             TextInput::make('title')
@@ -70,7 +70,7 @@ abstract class BasePage extends FilamentPage implements HasForms
     {
         return $form
             ->schema([
-                ...$this->defaultFields(),
+                ...static::defaultFields(),
                 ...$this->fields(),
             ])
             ->statePath('data');
