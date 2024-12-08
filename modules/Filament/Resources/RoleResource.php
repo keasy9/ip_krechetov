@@ -62,18 +62,16 @@ class RoleResource extends BaseResource
                     ->since()
                     ->dateTimeTooltip(),
             ])
-            ->filters([
-            ])
             ->actions([
                 EditAction::make()
                     ->label('')
                     ->tooltip('Редактировать')
-                    ->disabled(fn (Role $role) => !$canEditOwnRoles && $user->hasRole($role)),
+                    ->disabled(fn (Role $role) => !$canEditOwnRoles && $user->hasRole($role)), // todo это должно решаться политиками
 
                 DeleteAction::make()
                     ->label('')
                     ->tooltip('Удалить')
-                    ->disabled(fn (Role $role) => !$canEditOwnRoles && $user->hasRole($role)),
+                    ->disabled(fn (Role $role) => !$canEditOwnRoles && $user->hasRole($role)), // todo это должно решаться политиками
             ])
             ->bulkActions([DeleteBulkAction::make()])
             ->recordUrl(fn (Role $role) => $canEditOwnRoles || !$user->hasRole($role) ? EditPage::getUrl([$role->getKey()]) : null)

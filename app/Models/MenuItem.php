@@ -105,6 +105,10 @@ class MenuItem extends Model
 
         $stack = collect();
         foreach ($tree as $item) {
+
+            $item->isFirst = $item->is($tree->first());
+            $item->isLast = $item->is($tree->last());
+
             $stack->push($item);
             $item->pushChildrenRecursively($stack);
         }
@@ -118,8 +122,60 @@ class MenuItem extends Model
             $this->children->each(function (MenuItem $item) use ($stack) {
                 $item->level = $this->level + 1;
                 $stack->push($item);
+
+                $item->isFirst = $item->is($this->children->first());
+                $item->isLast = $item->is($this->children->last());
+
                 $item->pushChildrenRecursively($stack);
             });
         }
+    }
+
+    public function up(): bool
+    {
+        $prevItem = static::query()
+            ->whereParentId($this->parent_id)
+            ->withTrashed()
+            ->where('sort', '<=', $this->sort)
+            ->whereNot('id', $this->getKey())
+            ->orderByDesc('sort')
+            ->orderByDesc('id')
+            ->first();
+
+        if (!$prevItem) return false;
+
+        $prevSort = $prevItem->sort;
+        $currentSort = $this->sort;
+        if ($this->sort === $prevSort) {
+            $prevSort -= 1;
+        }
+        $this->sort = $prevSort;
+        $prevItem->sort = $currentSort;
+
+        return $prevItem->save() && $this->save();
+    }
+
+    public function down(): bool
+    {
+        $nextItem = static::query()
+            ->whereParentId($this->parent_id)
+            ->withTrashed()
+            ->where('sort', '>=', $this->sort)
+            ->whereNot('id', $this->getKey())
+            ->orderBy('sort')
+            ->orderBy('id')
+            ->first();
+
+        if (!$nextItem) return false;
+
+        $nextSort = $nextItem->sort;
+        $currentSort = $this->sort;
+        if ($this->sort === $nextSort) {
+            $nextSort += 1;
+        }
+        $this->sort = $nextSort;
+        $nextItem->sort = $currentSort;
+
+        return $nextItem->save() && $this->save();
     }
 }

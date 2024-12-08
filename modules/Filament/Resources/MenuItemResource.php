@@ -52,7 +52,6 @@ class MenuItemResource extends Resource
 
                 TextColumn::make('sort')
                     ->label('Сортировка'),
-                // todo кнопки-стрелки для сортировки. стандартная сортировка не подходит из-за древовидной структуры
 
                 ToggleColumn::make('deleted_at')
                     ->label('Выводить на сайте')
@@ -63,6 +62,9 @@ class MenuItemResource extends Resource
                             $item->delete();
                         }
                         // todo при удалении родителя надо показать детей удалёнными, при восстановлении показать их реальное сосотяние
+                        //   или дизейблить детей удалённого родителя
+                        //   1) dom обновится только если значение состояния обновится, т.е. визуально задизейблится только если изменится положение переключателя,
+                        //      и похоже что это поведение опеределяется livewire, а не filament
                     })
                     ->getStateUsing(fn(MenuItem $item) => !$item->deleted_at),
 
@@ -77,9 +79,22 @@ class MenuItemResource extends Resource
                     ->toggleable()
                     ->since()
                     ->dateTimeTooltip(),
-
             ])
             ->actions([
+                Action::make('up')
+                    ->hiddenLabel()
+                    ->disabled(fn (MenuItem $item) => $item->isFirst ?? false)
+                    ->icon(fn (MenuItem $item) => ($item->isFirst ?? false) ? 'heroicon-o-arrow-up' : 'heroicon-c-arrow-up')
+                    ->tooltip('Переместить верх')
+                    ->action(fn (MenuItem $item) => $item->up()),
+
+                Action::make('down')
+                    ->hiddenLabel()
+                    ->disabled(fn (MenuItem $item) => $item->isLast ?? false)
+                    ->icon(fn (MenuItem $item) => ($item->isLast ?? false) ? 'heroicon-o-arrow-down' : 'heroicon-c-arrow-down')
+                    ->tooltip('Переместить вниз')
+                    ->action(fn (MenuItem $item) => $item->down()),
+
                 Action::make('create_child')
                     ->label('')
                     ->tooltip('Добавить подпункт')

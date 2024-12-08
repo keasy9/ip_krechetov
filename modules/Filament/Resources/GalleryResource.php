@@ -101,7 +101,8 @@ class GalleryResource extends BaseResource
                 DeleteBulkAction::make()->label('Архивировать выбранное')->icon('heroicon-o-archive-box-arrow-down'),
                 ForceDeleteBulkAction::make()->label('Удалить выбранное'),
                 RestoreBulkAction::make()->icon('heroicon-o-archive-box-x-mark'),
-            ])->modifyQueryUsing(fn (Builder $query) => $query->withCount('items'));
+            ])->modifyQueryUsing(fn (Builder $query) => $query->withCount('items'))
+            ->paginated(false);
     }
 
     public static function getRelations(): array
