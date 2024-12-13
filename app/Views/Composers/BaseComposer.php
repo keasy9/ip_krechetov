@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Composers;
+namespace App\Views\Composers;
 
 use App\Enums\PageEnum;
 use App\Services\PagePartialService;

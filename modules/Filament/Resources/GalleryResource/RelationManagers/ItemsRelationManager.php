@@ -41,16 +41,13 @@ class ItemsRelationManager extends RelationManager
                     ->acceptedFileTypes(['image/*', 'video/*'])
                     ->imageEditor()
                     ->collection(MediaCollectionEnum::galleryItem->value)
-                    ->hidden(fn(callable $get) => $get('type') === GalleryItemTypeEnum::iframe->value)
-                    ->required(fn(callable $get) => $get('type') !== GalleryItemTypeEnum::iframe->value),
+                    ->hidden(fn(callable $get) => $get('type') === GalleryItemTypeEnum::iframe->value),
                 TextInput::make('short_description')
                     ->label('Заголовок/alt')
-                    ->maxLength(255)
-                    ->hidden(fn(callable $get) => $get('type') === GalleryItemTypeEnum::iframe->value),
+                    ->maxLength(255),
                 TextArea::make('description')
                     ->label('Описание')
-                    ->rows(5)
-                    ->hidden(fn(callable $get) => $get('type') === GalleryItemTypeEnum::iframe->value),
+                    ->rows(5),
                 TextArea::make('iframe')
                     ->label('Код вставки')
                     ->rows(5)

@@ -4,8 +4,10 @@ namespace Modules\Filament\Resources;
 
 use App\Enums\MediaCollectionEnum;
 use App\Enums\PermissionEnum;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -22,6 +24,7 @@ use League\Flysystem\UnableToCheckFileExistence;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Modules\Content\Enums\GalleryItemTypeEnum;
+use Modules\Content\Enums\GalleryTemplateEnum;
 use Modules\Content\Models\Gallery;
 use Modules\Content\Models\GalleryItem;
 use Modules\Filament\Pages\Gallery\CreatePage;
@@ -39,8 +42,6 @@ class GalleryResource extends BaseResource
     protected static ?string $navigationGroup = 'Контент';
     protected static ?int $navigationSort = 4;
 
-
-
     public static function table(Table $table): Table
     {
         return $table
@@ -49,6 +50,11 @@ class GalleryResource extends BaseResource
                     ->label('Название')
                     ->sortable()
                     ->searchable(),
+
+                TextColumn::make('template')
+                    ->label('Внешний вид')
+                    ->toggleable()
+                    ->getStateUsing(fn (Gallery $gallery) => $gallery->template?->label() ?? 'Определяется местом вывода'),
 
                 TextColumn::make('created_at')
                     ->label('Создано')
@@ -136,8 +142,12 @@ class GalleryResource extends BaseResource
         return [
             TextInput::make('name')
                 ->label('Название')
-                ->columnSpan(2)
                 ->required(),
+
+            Select::make('template')
+                ->label('Внешний вид')
+                ->options(GalleryTemplateEnum::options())
+                ->placeholder('Определяется местом вывода'),
 
             SpatieMediaLibraryFileUpload::make('items')
                 ->label('Элементы')
@@ -183,5 +193,10 @@ class GalleryResource extends BaseResource
     public static function canAccess(): bool
     {
         return auth()->user()->hasPermissionTo(PermissionEnum::pages->value);
+    }
+
+    public static function form(Form $form): Form
+    {
+        return parent::form($form)->columns(1);
     }
 }

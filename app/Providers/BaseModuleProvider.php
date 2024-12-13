@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\View\Composers\BaseComposer;
+use App\Views\Composers\BaseComposer;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Blade;

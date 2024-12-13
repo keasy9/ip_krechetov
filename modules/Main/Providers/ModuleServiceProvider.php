@@ -17,6 +17,7 @@ class ModuleServiceProvider extends BaseModuleProvider
     protected function getProviderList(): array
     {
         return [
+            RouteServiceProvider::class,
         ];
     }
 }

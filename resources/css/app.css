@@ -1,5 +1,24 @@
+@import '@splidejs/splide/css/sea-green';
+
 @tailwind base;
 
 @tailwind components;
 
 @tailwind utilities;
+
+.splide__arrow svg {
+    @apply fill-red-400;
+}
+
+.splide__pagination__page.is-active {
+    @apply bg-red-400;
+}
+
+.splide {
+    @apply p-0;
+}
+
+iframe {
+    height: 100%;
+    width: 100%;
+}
