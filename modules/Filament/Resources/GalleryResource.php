@@ -39,6 +39,8 @@ class GalleryResource extends BaseResource
     protected static ?string $navigationGroup = 'Контент';
     protected static ?int $navigationSort = 4;
 
+
+
     public static function table(Table $table): Table
     {
         return $table
