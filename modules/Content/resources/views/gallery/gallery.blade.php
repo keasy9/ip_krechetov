@@ -51,7 +51,7 @@
                     <div class="blaze-track">
                         @foreach($gallery->items as $slide)
                             @continue($slide->media?->isEmpty())
-                            <div class="relative">
+                            <div @class(['blaze-slide-current' => $loop->first])>
                                 @if ($slide->type === GalleryItemTypeEnum::image)
                                     {{ $slide->media->first()->img()->conversion('thumb') }}
                                 @else

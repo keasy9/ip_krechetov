@@ -29,6 +29,11 @@
     --slides-to-show: 4;
 }
 
+.blaze-slide-current {
+    @apply border-4;
+    @apply border-red-500;
+}
+
 @media (min-width: 639px) {
     .blaze-pagination-slider {
         --slides-to-show: 5;

@@ -69,12 +69,21 @@ class Slider {
         const paginationEl = item.querySelector('.blaze-slider-pagination');
         if (!paginationEl) return;
         const pagination = new this.blaze(paginationEl, this.sliderOptions.galleryPagination);
+        const paginationElems = pagination.el.querySelectorAll('.blaze-track > *');
 
         pagination.onSlide(() => {
             this.syncSliders(pagination, gallery);
+            for (let i = 0; i < paginationElems.length -1; i++) {
+                const el = paginationElems[i];
+                if (el.classList.contains('blaze-slide-current')) {
+                    el.classList.remove('blaze-slide-current');
+                    break;
+                }
+            }
+            paginationElems[pagination.stateIndex].classList.add('blaze-slide-current');
         });
 
-        pagination.el.querySelectorAll('.blaze-track > *').forEach((el, i) => {
+        paginationElems.forEach((el, i) => {
             el.addEventListener('click', () => {
                 this.slideTo(pagination, i);
             });
