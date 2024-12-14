@@ -1,4 +1,4 @@
-import {slider} from "./controllers/blaze";
+import {slider} from "./controllers/slider";
 window.addEventListener('DOMContentLoaded', () => {
     slider.init();
 });

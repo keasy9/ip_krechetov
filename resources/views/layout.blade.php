@@ -10,7 +10,7 @@
         @vite(['resources/css/app.css'])
     </head>
     <body class="flex flex-col min-h-screen">
-    <header class="fixed w-full flex justify-between p-5 items-center gap-3 z-10 bg-black bg-opacity-50">
+    <header class="fixed w-full flex justify-between p-5 items-center gap-3 z-20 bg-black bg-opacity-50 transition">
         <div class="text-red-500 text-3xl bold sm:text-4xl flex-grow md:flex-grow-0 lg:text-5xl">{{ $baseData['header']['site-name'] ?? $baseData['site-name'] ?? '' }}</div>
         @if(!empty($baseData['header']['address']))
             <a class="hidden sm:flex items-center" href="#">
