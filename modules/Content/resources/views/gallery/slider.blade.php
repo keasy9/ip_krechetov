@@ -9,7 +9,7 @@
                         @if ($slide->type === GalleryItemTypeEnum::image)
                             {{ $slide->media->first() }}
                             <div
-                                class="absolute rounded-2xl bottom-14 p-6 left-24 max-w-xl bg-opacity-50 bg-black text-white font-bold"
+                                class="absolute bottom-0 p-6 w-full bg-opacity-50 bg-black text-white font-bold md:max-w-xl rounded-r-2xl md:bottom-10 lg:left-20 lg:rounded-l-2xl"
                             >
                                 {!! $slide->description !!}
                             </div>
@@ -33,7 +33,7 @@
                                 >
                             </video>
                             <div
-                                class="absolute rounded-2xl bottom-14 p-6 left-24 max-w-xl bg-opacity-50 bg-black text-white font-bold"
+                                class="absolute bottom-0 p-6 w-full bg-opacity-50 bg-black text-white font-bold md:max-w-xl rounded-r-2xl md:bottom-10 lg:left-20 lg:rounded-l-2xl"
                             >
                                 {!! $slide->description !!}
                             </div>
