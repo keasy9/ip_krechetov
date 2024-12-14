@@ -45,10 +45,10 @@
             </div>
         </div>
 
-        <button class="blaze-prev" aria-label="Go to previous slide">
+        <button class="blaze-prev" aria-label="Перейти на предыдущий слайд">
             <x-ionicon-chevron-back-sharp class="w-12 h-12 text-red-500"/>
         </button>
-        <button class="blaze-next" aria-label="Go to next slide">
+        <button class="blaze-next" aria-label="Перейти на следующий слайд">
             <x-ionicon-chevron-forward-sharp class="w-12 h-12 text-red-500"/>
         </button>
     </div>

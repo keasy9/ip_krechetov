@@ -1,3 +1,4 @@
+// todo этот слайдер умер, надо найти другой
 class Slider {
     protected blaze = null;
     protected className = 'blaze-slider';
@@ -14,7 +15,24 @@ class Slider {
         },
         gallery: {
             all: {
+                enablePagination: false,
+                draggable: false,
+            },
+        },
+        galleryPagination: {
+            all: {
+                slidesToShow: 4,
                 enablePagination: true,
+                draggable: false,
+            },
+            '(min-width: 639px)': {
+                slidesToShow: 5,
+            },
+            '(min-width: 1023px)': {
+                slidesToShow: 6,
+            },
+            '(min-width: 1279px)': {
+                slidesToShow: 8,
             },
         },
     };
@@ -47,8 +65,33 @@ class Slider {
     }
 
     protected initGallery(item: HTMLElement) {
-        new this.blaze(item, this.sliderOptions.gallery);
+        const gallery = new this.blaze(item, this.sliderOptions.gallery);
+        const paginationEl = item.querySelector('.blaze-slider-pagination');
+        if (!paginationEl) return;
+        const pagination = new this.blaze(paginationEl, this.sliderOptions.galleryPagination);
 
+        pagination.onSlide(() => {
+            this.syncSliders(pagination, gallery);
+        });
+
+        pagination.el.querySelectorAll('.blaze-track > *').forEach((el, i) => {
+            el.addEventListener('click', () => {
+                this.slideTo(pagination, i);
+            });
+        });
+    }
+
+    protected syncSliders(from, to) {
+        this.slideTo(to, from.stateIndex);
+    }
+
+    protected slideTo(slider, toIndex) {
+        const sliderIndex = slider.stateIndex;
+        if (sliderIndex > toIndex) {
+            slider.prev(sliderIndex - toIndex);
+        } else if(toIndex > sliderIndex) {
+            slider.next(toIndex - sliderIndex);
+        }
     }
 
     protected initSlider(item: HTMLElement) {

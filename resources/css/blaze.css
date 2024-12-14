@@ -24,3 +24,25 @@
 .blaze-next {
     right: 0;
 }
+
+.blaze-pagination-slider {
+    --slides-to-show: 4;
+}
+
+@media (min-width: 639px) {
+    .blaze-pagination-slider {
+        --slides-to-show: 5;
+    }
+}
+
+@media (min-width: 1023px) {
+    .blaze-pagination-slider {
+        --slides-to-show: 6;
+    }
+}
+
+@media (min-width: 1279px) {
+    .blaze-pagination-slider {
+        --slides-to-show: 8;
+    }
+}
