@@ -7,6 +7,10 @@
 
 @tailwind utilities;
 
+.auto-rows-equal {
+    grid-auto-rows: 1fr;
+}
+
 iframe, img, video {
     @apply w-full;
     @apply h-full;

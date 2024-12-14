@@ -1,5 +1,5 @@
 @use(Modules\Content\Enums\GalleryItemTypeEnum)
-<section class="w-full bg-black text-white p-5 space-y-5 lg:grid lg:grid-cols-2 lg:gap-5 lg:space-y-0 xl:grid-cols-3">
+<section class="w-full bg-black text-white p-5 space-y-5 lg:grid lg:grid-cols-2 lg:gap-5 lg:space-y-0 xl:grid-cols-3 auto-rows-equal">
     @foreach($gallery->items as $slide)
         <div
             @class([
