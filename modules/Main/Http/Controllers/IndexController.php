@@ -16,6 +16,7 @@ class IndexController extends Controller
             'data' => [
                 'promo-slider' => $data['promo-slider'],
                 'cards'        => $data['cards'],
+                'gallery'      => $data['gallery'],
             ],
         ]);
     }

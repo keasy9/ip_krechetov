@@ -42,6 +42,12 @@ class ItemsRelationManager extends RelationManager
                     ->imageEditor()
                     ->collection(MediaCollectionEnum::galleryItem->value)
                     ->hidden(fn(callable $get) => $get('type') === GalleryItemTypeEnum::iframe->value),
+                SpatieMediaLibraryFileUpload::make('thumb')
+                    ->label('Обложка')
+                    ->acceptedFileTypes(['image/*'])
+                    ->imageEditor()
+                    ->collection(MediaCollectionEnum::galleryItemThumb->value)
+                    ->hidden(fn(callable $get) => $get('type') === GalleryItemTypeEnum::image->value),
                 TextInput::make('short_description')
                     ->label('Заголовок/alt')
                     ->maxLength(255),

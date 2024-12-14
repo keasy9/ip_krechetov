@@ -1,5 +1,5 @@
 @use(Modules\Content\Enums\GalleryItemTypeEnum)
-<section class="blaze-slider w-full h-screen">
+<section class="blaze-slider w-full h-screen" data-options="slider">
     <div class="blaze-container" aria-label="Slider">
         <div class="blaze-track-container">
             <div class="blaze-track">

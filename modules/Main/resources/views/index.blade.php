@@ -8,4 +8,8 @@
         :galleryId="$data['cards']"
         defaultTemplate="cards"
     />
+    <x-content::gallery
+        :galleryId="$data['gallery']"
+        defaultTemplate="gallery"
+    />
 @endsection
