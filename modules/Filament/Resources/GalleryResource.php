@@ -8,6 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -147,7 +148,9 @@ class GalleryResource extends BaseResource
             Select::make('template')
                 ->label('Внешний вид')
                 ->options(GalleryTemplateEnum::options())
-                ->placeholder('Определяется местом вывода'),
+                ->placeholder('Определяется местом вывода')
+                ->live()
+                ->helperText(fn (Get $get) => GalleryTemplateEnum::tryFrom($get('template'))?->helperText()),
 
             SpatieMediaLibraryFileUpload::make('items')
                 ->label('Элементы')

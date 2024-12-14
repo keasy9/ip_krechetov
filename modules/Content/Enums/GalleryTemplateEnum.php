@@ -34,4 +34,12 @@ enum GalleryTemplateEnum: string
         }
         return $options;
     }
+
+    public function helperText(): string
+    {
+        return match ($this) {
+            static::cards   => 'Поддерживает только изображения, встроенное видео или можно ничего не задавать',
+            default         => 'Поддерживает любой тип контента',
+        };
+    }
 }

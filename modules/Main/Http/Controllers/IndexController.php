@@ -15,6 +15,7 @@ class IndexController extends Controller
         return view('main::index', [
             'data' => [
                 'promo-slider' => $data['promo-slider'],
+                'cards'        => $data['cards'],
             ],
         ]);
     }

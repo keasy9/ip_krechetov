@@ -4,6 +4,7 @@
         <div class="blaze-track-container">
             <div class="blaze-track">
                 @foreach($gallery->items as $slide)
+                    @continue($slide->media?->isEmpty())
                     <div class="relative">
                         @if ($slide->type === GalleryItemTypeEnum::image)
                             {{ $slide->media->first() }}
@@ -15,13 +16,13 @@
                         @elseif($slide->type === GalleryItemTypeEnum::video)
                             <video
                                 src="{{ $slide->media->first()->getUrl() }}"
-                            @if($slide->inline_video)
-                                autoplay
-                                muted
-                                loop
-                                webkit-playsinline
-                                playsinline
-                                disablepicrureinpicture
+                                @if($slide->inline_video)
+                                    autoplay
+                                    muted
+                                    loop
+                                    webkit-playsinline
+                                    playsinline
+                                    disablepicrureinpicture
                                 @else
                                     controls
                                 @endif

@@ -4,4 +4,8 @@
         :galleryId="$data['promo-slider']"
         defaultTemplate="slider"
     />
+    <x-content::gallery
+        :galleryId="$data['cards']"
+        defaultTemplate="cards"
+    />
 @endsection

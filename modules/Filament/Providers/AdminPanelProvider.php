@@ -56,7 +56,7 @@ class AdminPanelProvider extends PanelProvider
             ->profile(Profile::class, false)
             ->navigationItems([
                 NavigationItem::make('На сайт')
-                    ->icon('heroicon-m-tv')
+                    ->icon('heroicon-m-globe-alt')
                     ->url('/')
                     ->openUrlInNewTab(),
             ]);
