@@ -1,18 +1,21 @@
-import Splide from '@splidejs/splide';
-var elms = document.getElementsByClassName( 'splide' );
+window.addEventListener('DOMContentLoaded', async () => {
+    const sliderOptions = {
+        all: {
+            enableAutoplay: true,
+            stopAutoplayOnInteraction: true,
+            autoplayInterval: 5000,
+            transitionDuration: 1000,
+            enablePagination: false,
+        },
+    };
 
-for ( var i = 0; i < elms.length; i++ ) {
-    new Splide( elms[ i ] ).mount();
-}
-/* todo почему не работает при динамическом импорте?
-window.addEventListener('DOMContentLoaded', () => {
-    const sliders = document.getElementsByClassName('js-splide');
+    const sliders = document.getElementsByClassName('blaze-slider') as HTMLCollectionOf<HTMLElement>;
+
     if (sliders.length) {
-        import('@splidejs/splide').then((Splide) => {
-            for ( var i = 0; i < sliders.length; i++ ) {
-                new Splide(sliders[ i ]).mount();
-            }
-        })
+        let BlazeSlider = await import('blaze-slider');
+        BlazeSlider = BlazeSlider.default;
+        for ( var i = 0; i < sliders.length; i++ ) {
+            new BlazeSlider(sliders[i], sliderOptions);
+        }
     }
 });
-*/

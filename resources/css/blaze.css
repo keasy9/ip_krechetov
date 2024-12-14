@@ -1,0 +1,26 @@
+.blaze-container {
+    position: relative;
+    background: black;
+}
+
+.blaze-container,
+.blaze-track-container,
+.blaze-track
+{
+    height: 100%;
+}
+
+.blaze-prev,
+.blaze-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.blaze-prev {
+    left: 0;
+}
+
+.blaze-next {
+    right: 0;
+}

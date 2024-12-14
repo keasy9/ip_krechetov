@@ -14,7 +14,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "@splidejs/splide": "^4.1.4",
-        "auto-prefixer": "^0.4.2"
+        "auto-prefixer": "^0.4.2",
+        "blaze-slider": "^1.9.3"
     }
 }
