@@ -1,15 +1,21 @@
 @extends('layout')
 @section('content')
-    <x-content::gallery
-        :galleryId="$data['promo-slider']"
-        defaultTemplate="slider"
-    />
-    <x-content::gallery
-        :galleryId="$data['cards']"
-        defaultTemplate="cards"
-    />
-    <x-content::gallery
-        :galleryId="$data['gallery']"
-        defaultTemplate="gallery"
-    />
+    @isset($data['promo-slider'])
+        <x-content::gallery
+            :galleryId="$data['promo-slider']"
+            defaultTemplate="slider"
+        />
+    @endisset
+    @isset($data['cards'])
+        <x-content::gallery
+            :galleryId="$data['cards']"
+            defaultTemplate="cards"
+        />
+    @endisset
+    @isset($data['gallery'])
+        <x-content::gallery
+            :galleryId="$data['gallery']"
+            defaultTemplate="gallery"
+        />
+    @endisset
 @endsection
