@@ -18,4 +18,7 @@
             defaultTemplate="gallery"
         />
     @endisset
+    @isset($data['contacts'])
+        <x-main::contacts :data="$data['contacts']" />
+    @endisset
 @endsection

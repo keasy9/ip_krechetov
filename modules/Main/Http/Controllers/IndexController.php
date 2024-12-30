@@ -17,6 +17,7 @@ class IndexController extends Controller
                 'promo-slider' => $data['promo-slider'] ?? null,
                 'cards'        => $data['cards'] ?? null,
                 'gallery'      => $data['gallery'] ?? null,
+                'contacts'     => $data['contacts'] ?? null,
             ],
         ]);
     }

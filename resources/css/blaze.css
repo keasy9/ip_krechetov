@@ -1,6 +1,6 @@
 .blaze-container {
     position: relative;
-    background: black;
+    @apply bg-bg;
 }
 
 .blaze-container,

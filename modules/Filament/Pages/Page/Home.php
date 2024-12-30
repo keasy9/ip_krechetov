@@ -3,9 +3,16 @@
 namespace Modules\Filament\Pages\Page;
 
 use App\Enums\PageEnum;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Modules\Content\Enums\GalleryTemplateEnum;
 use Modules\Content\Models\Gallery;
+use Modules\Main\Enums\WeekdayEnum;
 
 class Home extends BasePage
 {
@@ -18,29 +25,51 @@ class Home extends BasePage
     public function fields(): array
     {
         return [
-            Select::make('promo-slider')
-                ->label('Галерея в промо-слайдере')
-                ->placeholder('Не выводить')
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search): array => Gallery::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
-                ->getOptionLabelUsing(fn ($value): ?string => Gallery::find($value)?->name)
-                ->helperText('Шаблон по умолчанию: ' . GalleryTemplateEnum::slider->label()),
+            Fieldset::make('Контент')->schema([
+                Select::make('promo-slider')
+                    ->label('Галерея в промо-слайдере')
+                    ->placeholder('Не выводить')
+                    ->searchable()
+                    ->getSearchResultsUsing(fn (string $search): array => Gallery::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
+                    ->getOptionLabelUsing(fn ($value): ?string => Gallery::find($value)?->name)
+                    ->helperText('Шаблон по умолчанию: ' . GalleryTemplateEnum::slider->label()),
 
-            Select::make('cards')
-                ->label('Галерея в карточках преимуществ')
-                ->placeholder('Не выводить')
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search): array => Gallery::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
-                ->getOptionLabelUsing(fn ($value): ?string => Gallery::find($value)?->name)
-                ->helperText('Шаблон по умолчанию: ' . GalleryTemplateEnum::cards->label()),
+                Select::make('cards')
+                    ->label('Галерея в карточках преимуществ')
+                    ->placeholder('Не выводить')
+                    ->searchable()
+                    ->getSearchResultsUsing(fn (string $search): array => Gallery::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
+                    ->getOptionLabelUsing(fn ($value): ?string => Gallery::find($value)?->name)
+                    ->helperText('Шаблон по умолчанию: ' . GalleryTemplateEnum::cards->label()),
 
-            Select::make('gallery')
-                ->label('Галерея в перед блоком контактов')
-                ->placeholder('Не выводить')
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search): array => Gallery::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
-                ->getOptionLabelUsing(fn ($value): ?string => Gallery::find($value)?->name)
-                ->helperText('Шаблон по умолчанию: ' . GalleryTemplateEnum::gallery->label()),
+                Select::make('gallery')
+                    ->label('Галерея в перед блоком контактов')
+                    ->placeholder('Не выводить')
+                    ->searchable()
+                    ->getSearchResultsUsing(fn (string $search): array => Gallery::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
+                    ->getOptionLabelUsing(fn ($value): ?string => Gallery::find($value)?->name)
+                    ->helperText('Шаблон по умолчанию: ' . GalleryTemplateEnum::gallery->label()),
+
+                Fieldset::make('Контакты')->schema([
+                    TextInput::make('contacts.2gisId')->label('Id компании в 2gis'),
+                    TextInput::make('contacts.title')->label('Заголовок блока'),
+                    Textarea::make('contacts.address')->label('Адрес'),
+
+                    Repeater::make('contacts.phone')
+                        ->simple(
+                            TextInput::make('phone')->label('Телефоны')->mask('+7 (999) 999-99-99')->stripCharacters([' ', '(', ')', '-'])->tel(),
+                        )->label('Телефоны'),
+
+                    KeyValue::make('contacts.schedule')
+                        ->label('Режим работы')
+                        ->addable(false)
+                        ->deletable(false)
+                        ->editableKeys(false)
+                        ->keyLabel('Период')
+                        ->valueLabel('Время'),
+
+                ])->columns(1),
+            ])->columns(1),
         ];
     }
 }

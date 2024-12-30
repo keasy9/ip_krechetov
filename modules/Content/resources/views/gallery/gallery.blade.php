@@ -1,6 +1,6 @@
 @use(Modules\Content\Enums\GalleryItemTypeEnum)
 @use(App\Enums\MediaCollectionEnum)
-<section class="blaze-slider w-full px-5 bg-black" data-options="gallery">
+<section class="blaze-slider w-full px-5 bg-bg" data-options="gallery">
     <div class="blaze-container" aria-label="Slider">
         <h3 class="text-red-500 font-bold text-2xl mb-2">{{ $gallery->name }}</h3>
         <div class="blaze-track-container pb-2">

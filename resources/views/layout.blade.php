@@ -10,7 +10,7 @@
         @vite(['resources/css/app.css'])
     </head>
     <body class="flex flex-col min-h-screen">
-    <header class="fixed w-full flex justify-between p-5 items-center gap-3 z-20 bg-black bg-opacity-50 transition">
+    <header class="fixed w-full flex justify-between p-5 items-center gap-3 z-20 bg-bg bg-opacity-50 transition">
         <div class="text-red-500 text-3xl bold sm:text-4xl flex-grow md:flex-grow-0 lg:text-5xl">{{ $baseData['header']['site-name'] ?? $baseData['site-name'] ?? '' }}</div>
         @if(!empty($baseData['header']['address']))
             <a class="hidden sm:flex items-center" href="#">
@@ -36,7 +36,7 @@
     <main class="flex-grow">
         @yield('content')
     </main>
-    <footer class="w-full p-5 flex gap-3 flex-col items-end sm:flex-row sm:items-center sm:justify-between bg-black text-white">
+    <footer class="w-full p-5 flex gap-3 flex-col items-end sm:flex-row sm:items-center sm:justify-between bg-bg text-white border-t-2 border-black">
         <div class="flex justify-between w-full items-center sm:contents">
             <div class="font-bold text-lg">{{ $baseData['footer']['site-name'] ?? $baseData['site-name'] ?? '' }}</div>
             <div class="text-sm sm:flex-grow">{{ !empty($baseData['footer']['start-year']) ? "{$baseData['footer']['start-year']} - " : '' }}{{ now()->format('Y') }}</div>
