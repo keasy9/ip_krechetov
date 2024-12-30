@@ -4,7 +4,6 @@
     @endif
     @if(!empty($data['2gisId']))
         <div class="h-[30rem] lg:w-1/2 border-red-500 border-2">
-            <!-- todo подключить по api, если там тоже всё также разваливается, то использовать яндекс-карту -->
             <script charset="utf-8" src="https://widgets.2gis.com/js/DGWidgetLoader.js"></script>
             <script charset="utf-8">new DGWidgetLoader({
                 "pos": {"lat": 53.30686491109112, "lon": 83.61293077468873, "zoom": 15},
