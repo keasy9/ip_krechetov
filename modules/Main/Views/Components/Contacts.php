@@ -38,6 +38,6 @@ class Contacts extends Component
             $this->data['schedule'] = $schedule;
         }
 
-        return view('main::contacts', ['data' => $this->data]);
+        return view('main::components.contacts', ['data' => $this->data]);
     }
 }

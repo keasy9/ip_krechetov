@@ -2,7 +2,6 @@
 
 namespace Modules\Filament\Resources;
 
-use App\Enums\PageEnum;
 use App\Enums\PermissionEnum;
 use App\Models\MenuItem;
 use Filament\Forms\Components\Select;
@@ -20,6 +19,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Modules\Content\Enums\PageEnum;
 use Modules\Content\Models\Page;
 use Modules\Filament\Pages\MenuItem\ListPage;
 
@@ -201,19 +201,20 @@ class MenuItemResource extends Resource
                     ->required()
                     ->live()
                     ->options([
-                        'link' => 'Ссылка',
-                        'page' => 'Страница сайта',
-                        'tts'  => 'Типовая текстовая страница',
+                        'link'          => 'Ссылка на сайте',
+                        'page'          => 'Страница сайта',
+                        'tts'           => 'Типовая текстовая страница',
+                        'absolute_link' => 'Любая ссылка',
                     ]),
             ]),
 
             Step::make('Ссылка')
-                ->hidden(fn(Get $get) => $get('type') !== 'link')
+                ->hidden(fn(Get $get) => !in_array($get('type'), ['link', 'absolute_link']))
                 ->schema([
                     TextInput::make('url')
                         ->label('Ссылка')
                         ->required()
-                        ->prefix(url(config('app.url')) . '/'),
+                        ->prefix(fn (Get $get) => $get('type') === 'link' ? url(config('app.url')) . '/' : ''),
                 ]),
 
             Step::make('Страница')

@@ -2,9 +2,9 @@
 
 namespace App\Views\Composers;
 
-use App\Enums\PageEnum;
 use App\Services\PagePartialService;
 use Illuminate\View\View;
+use Modules\Content\Enums\PageEnum;
 
 class BaseComposer
 {

@@ -2,23 +2,16 @@
 
 namespace Modules\Main\Http\Controllers;
 
-use App\Enums\PageEnum;
 use App\Http\Controllers\Controller;
 use App\Services\PagePartialService;
+use Modules\Content\Enums\PageEnum;
 
 class IndexController extends Controller
 {
     public function index(PagePartialService $pagePartialService)
     {
-        $data = $pagePartialService::get(PageEnum::home)->toArray();
-
         return view('main::index', [
-            'data' => [
-                'promo-slider' => $data['promo-slider'] ?? null,
-                'cards'        => $data['cards'] ?? null,
-                'gallery'      => $data['gallery'] ?? null,
-                'contacts'     => $data['contacts'] ?? null,
-            ],
+            'data' => $pagePartialService::get(PageEnum::home)->toArray(),
         ]);
     }
 }

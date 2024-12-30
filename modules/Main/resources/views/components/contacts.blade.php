@@ -27,7 +27,7 @@
                                     'text-left',
                                     'pl-3',
                                     'border-l-2',
-                                    'border-white'                  => Str::lower($schedule['time'] ?? '') !== 'выходной',
+                                    'border-yellow-100'                  => Str::lower($schedule['time'] ?? '') !== 'выходной',
                                     'border-red-500'                => Str::lower($schedule['time'] ?? '') === 'выходной',
                                     "text-{$schedule['rowspan']}xl" => $schedule['rowspan'] > 1,
                                 ])

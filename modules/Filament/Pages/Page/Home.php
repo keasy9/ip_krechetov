@@ -2,8 +2,6 @@
 
 namespace Modules\Filament\Pages\Page;
 
-use App\Enums\PageEnum;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
@@ -11,6 +9,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Modules\Content\Enums\GalleryTemplateEnum;
+use Modules\Content\Enums\MenuEnum;
+use Modules\Content\Enums\PageEnum;
 use Modules\Content\Models\Gallery;
 use Modules\Main\Enums\WeekdayEnum;
 
@@ -42,8 +42,17 @@ class Home extends BasePage
                     ->getOptionLabelUsing(fn ($value): ?string => Gallery::find($value)?->name)
                     ->helperText('Шаблон по умолчанию: ' . GalleryTemplateEnum::cards->label()),
 
+                Fieldset::make('Соц. сети')->schema([
+                    TextInput::make('socials.title')->label('Заголовок'),
+                    Select::make('socials.menu')
+                        ->label('Меню')
+                        ->placeholder('Не выводить')
+                        ->options(MenuEnum::options()),
+                    TextInput::make('socials.subtitle')->label('Подзаголовок'),
+                ]),
+
                 Select::make('gallery')
-                    ->label('Галерея в перед блоком контактов')
+                    ->label('Галерея перед блоком контактов')
                     ->placeholder('Не выводить')
                     ->searchable()
                     ->getSearchResultsUsing(fn (string $search): array => Gallery::where('name', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())

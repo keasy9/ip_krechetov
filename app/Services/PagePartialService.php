@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Enums\PageEnum;
+use App\Models\PagePartial;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use App\Models\PagePartial;
+use Modules\Content\Enums\PageEnum;
 
 class PagePartialService
 {

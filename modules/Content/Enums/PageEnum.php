@@ -1,5 +1,5 @@
 <?php
-namespace App\Enums;
+namespace Modules\Content\Enums;
 
 use Illuminate\Support\Facades\Route;
 

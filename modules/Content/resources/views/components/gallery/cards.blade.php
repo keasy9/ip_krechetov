@@ -3,7 +3,7 @@
     @foreach($gallery->items as $slide)
         <div
             @class([
-                'bg-white' => $slide->media?->isEmpty(),
+                'bg-yellow-100' => $slide->media?->isEmpty(),
                 'relative',
                 'rounded-xl',
             ])
@@ -30,7 +30,7 @@
                     </video>
                 @endif
             @endif
-            <div class="z-10 relative text-black bg-white bg-opacity-50 rounded-xl p-5 text-center h-full flex justify-between flex-col">
+            <div class="z-10 relative text-black bg-yellow-100 bg-opacity-50 rounded-xl p-5 text-center h-full flex justify-between flex-col">
                 <h5 class="font-bold text-red-500 mb-2 text-lg">{{ $slide->short_description }}</h5>
                 <p class="font-medium">{!! $slide->description !!}</p>
             </div>

@@ -12,6 +12,9 @@
             defaultTemplate="cards"
         />
     @endisset
+    @isset($data['socials'])
+        <x-main::socials :data="$data['socials']" />
+    @endisset
     @isset($data['gallery'])
         <x-content::gallery
             :galleryId="$data['gallery']"

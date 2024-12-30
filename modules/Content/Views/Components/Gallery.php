@@ -27,7 +27,7 @@ class Gallery extends Component
 
     public function render(): View|Closure|string
     {
-        return view("content::gallery.{$this->template}", [
+        return view("content::components.gallery.{$this->template}", [
             'gallery' => $this->gallery,
         ]);
     }
