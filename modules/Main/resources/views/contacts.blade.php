@@ -3,11 +3,10 @@
         <h3 class="text-white font-bold pl-1 text-xl lg:hidden">{{ $data['title'] }}</h3>
     @endif
     @if(!empty($data['2gisId']))
-        <div class="h-[30rem] lg:w-1/2">
+        <div class="h-[30rem] lg:w-1/2 border-red-500 border-2">
             <!-- todo подключить по api, если там тоже всё также разваливается, то использовать яндекс-карту -->
             <script charset="utf-8" src="https://widgets.2gis.com/js/DGWidgetLoader.js"></script>
             <script charset="utf-8">new DGWidgetLoader({
-                "borderColor": "#a3a3a3",
                 "pos": {"lat": 53.30686491109112, "lon": 83.61293077468873, "zoom": 15},
                 "opt": {"city": "barnaul"},
                 "org": [{"id": "{{ $data['2gisId'] }}"}]
